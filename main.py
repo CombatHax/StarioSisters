@@ -1,12 +1,13 @@
 import pygame as pg
 import player
 import cube
+import os
 
 screen = pg.display.set_mode((800, 600))
 pg.display.set_caption("Stario Sisters")
 player = player.Player([0, 0, 50, 50])
 levels = []
-for i in range(1):
+for i in range(len(next(os.walk('levels'))[1])):
     new_list = []
     f = open(f"levels/{i}/level.txt")
     for y, line in enumerate(f):
@@ -14,9 +15,9 @@ for i in range(1):
             if thing == 'c':
                 new_list.append(cube.Cube((x * 100, y * 100), (0, 0, 0)))
     levels.append(new_list)
-level = 0
+level = [0, 0]
 stuff = {
-    "level": levels[level],
+    "level": levels[level[0]],
     "objects": []
 }
 clock = pg.time.Clock()
@@ -40,7 +41,7 @@ while True:
     if keys[pg.K_d]:
         player_move += 5
     if keys[pg.K_SPACE]:
-        player.jump(levels[level])
+        player.jump(stuff["level"])
     stuff["objects"] += player.move(stuff["level"], player_move)
     player.draw(screen, (player_move + 5) / 10)
     pg.display.flip()
