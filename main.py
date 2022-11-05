@@ -5,10 +5,15 @@ import cube
 screen = pg.display.set_mode((800, 600))
 pg.display.set_caption("Stario Sisters")
 player = player.Player([0, 0, 50, 50])
-levels = [
-    # (0, 0), (100, 0), (200, 0), (0, 100)
-    [cube.Cube([i % 8 * 100, i // 8 * 100 + 400], [100, 100], (0, 0, 255)) for i in range(18)]
-]
+levels = []
+for i in range(1):
+    new_list = []
+    f = open(f"levels/{i}/level.txt")
+    for y, line in enumerate(f):
+        for x, thing in enumerate(line):
+            if thing == 'c':
+                new_list.append(cube.Cube((x * 100, y * 100), (0, 0, 0)))
+    levels.append(new_list)
 level = 0
 clock = pg.time.Clock()
 back = pg.Surface.convert_alpha(pg.image.load('imgs/back.png'))
