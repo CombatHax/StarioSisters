@@ -15,6 +15,10 @@ for i in range(1):
                 new_list.append(cube.Cube((x * 100, y * 100), (0, 0, 0)))
     levels.append(new_list)
 level = 0
+stuff = {
+    "level": levels[level],
+    "objects": []
+}
 clock = pg.time.Clock()
 back = pg.Surface.convert_alpha(pg.image.load('imgs/back.png'))
 
@@ -24,8 +28,11 @@ while True:
             exit()
     screen.fill((255, 0, 0))
     screen.blit(back, (0, 0))
-    for cube in levels[level]:
+    for cube in stuff["level"]:
         cube.draw(screen)
+    for obj in stuff["objects"]:
+        obj.move(stuff)
+        obj.draw(screen)
     player_move = 0
     keys = pg.key.get_pressed()
     if keys[pg.K_a]:
@@ -34,7 +41,7 @@ while True:
         player_move += 5
     if keys[pg.K_SPACE]:
         player.jump(levels[level])
-    player.move(levels[level], player_move)
+    stuff["objects"] += player.move(stuff["level"], player_move)
     player.draw(screen, (player_move + 5) / 10)
     pg.display.flip()
     clock.tick(60)

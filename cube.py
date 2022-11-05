@@ -6,4 +6,3 @@ class Cube(object.Object):
         self.rect = pos + (100, 100)
         self.color = color
         self.img = pg.image.load("imgs/cube.png")
-        print(self.rect)
